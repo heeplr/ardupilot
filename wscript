@@ -348,6 +348,10 @@ configuration in order to save typing.
         default=False,
         help="Don't use libiio even if supported by board and dependencies available")
 
+    g.add_option('--disable-libgpiod', action='store_true',
+        default=False,
+        help="Don't use libgpiod even if supported by board and dependencies available")
+
     g.add_option('--disable-tests', action='store_true',
         default=False,
         help="Disable compilation and test execution")

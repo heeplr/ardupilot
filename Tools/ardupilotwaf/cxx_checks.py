@@ -253,6 +253,18 @@ def check_libdl(cfg, env):
     return ret
 
 @conf
+def check_libgpiod(cfg, env):
+    if cfg.options.disable_libgpiod:
+        cfg.msg("Checking for 'libgpiod':", 'disabled', color='YELLOW')
+        return False
+
+    ret = check_package(cfg, env, 'libgpiod')
+    if ret:
+        env.LIB += cfg.env['LIB_GPIOD']
+    return ret
+
+
+@conf
 def check_SFML(cfg, env):
     if not cfg.options.enable_sfml:
         cfg.msg("Checking for SFML graphics:", 'disabled', color='YELLOW')

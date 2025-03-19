@@ -7,7 +7,7 @@
 
 define CONFIG_HAL_BOARD_SUBTYPE HAL_BOARD_SUBTYPE_LINUX_PILOTPI
 env TOOLCHAIN aarch64-linux-gnu
-env OPTIMIZE -march=native -fomit-frame-pointer -ftree-vectorize
+env OPTIMIZE -march=native -fomit-frame-pointer -ftree-vectorize -Werror=return-type -Werror=pure-virtual -Wabstract-vbase
 
 
 # IMU: ICM42688P
@@ -18,7 +18,6 @@ COMPASS IST8310 I2C:1:0x0f false ROTATION_YAW_180
 define HAL_PROBE_EXTERNAL_I2C_COMPASSES 1
 # We don't want any probing on the internal buses
 define HAL_LINUX_I2C_INTERNAL_BUS_MASK 0
-
 
 # Baro: MS5611
 # address of MS5611 is 0b1110110 | 0bCx with C = inverted CSB pins
@@ -47,8 +46,7 @@ define HAL_PARAM_DEFAULTS_PATH "/home/ardupilot/ardupilot.parm"
 
 
 # GPIO
-define HAL_LINUX_GPIO_RPI_ENABLED 1
-define HAL_LINUX_GPIO_PILOTPI_ENABLED 1
+define HAL_LINUX_GPIO_LIBGPIOD_ENABLED 1
 
 # SPI devices
 
