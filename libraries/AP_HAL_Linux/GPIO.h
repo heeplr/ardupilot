@@ -45,6 +45,6 @@ private:
 #define HAL_LINUX_GPIO_SYSFS_ENABLED 1
 #include "GPIO_Aero.h"
 #elif HAL_LINUX_GPIO_PILOTPI_ENABLED
-#include "GPIO_PilotPi.h"
 #define HAL_LINUX_GPIO_SYSFS_ENABLED 1
+#include "GPIO_PilotPi.h"
 #endif

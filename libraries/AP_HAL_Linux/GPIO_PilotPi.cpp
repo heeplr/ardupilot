@@ -1,78 +1,42 @@
+#include <AP_HAL/AP_HAL_Boards.h>
+
 #include "GPIO_PilotPi.h"
 
-#if HAL_LINUX_GPIO_PILOTPI_ENABLED
+#if CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_PILOTPI
 
-uint8_t GPIO_PilotPi::read(uint8_t pin)
-{
-    static uint8_t real_pin;
+/* taken from /sys/kernel/debug/gpio */
+const unsigned Linux::GPIO_Sysfs::pin_table[] = {
+    [PILOTPI_GPIO2] = 573,
+    [PILOTPI_GPIO3] = 574,
+    [PILOTPI_GPIO4] = 575,
+    [PILOTPI_GPIO5] = 576,
+    [PILOTPI_GPIO6] = 577,
+    [PILOTPI_GPIO7] = 578,
+    [PILOTPI_GPIO8] = 579,
+    [PILOTPI_GPIO9] = 580,
+    [PILOTPI_GPIO10] = 581,
+    [PILOTPI_GPIO11] = 582,
+    [PILOTPI_GPIO12] = 583,
+    [PILOTPI_GPIO13] = 584,
+    [PILOTPI_GPIO14] = 585,
+    [PILOTPI_GPIO15] = 586,
+    [PILOTPI_GPIO16] = 587,
+    [PILOTPI_GPIO17] = 588,
+    [PILOTPI_GPIO18] = 589,
+    [PILOTPI_GPIO19] = 590,
+    [PILOTPI_GPIO20] = 591,
+    [PILOTPI_GPIO21] = 592,
+    [PILOTPI_GPIO22] = 593,
+    [PILOTPI_GPIO23] = 594,
+    [PILOTPI_GPIO24] = 595,
+    [PILOTPI_GPIO25] = 596,
+    [PILOTPI_GPIO26] = 597,
+    [PILOTPI_GPIO27] = 598,
+};
 
-    /* MainOut (raspberry pi GPIOs)? */
-    if(mainOutPin(pin, &real_pin)) {
-        return GPIO_RPI::read(real_pin);
-    }
-    /* AUXOUT? (rcout) */
-    else if(auxOutPin(pin, &real_pin) && hal.rcout->supports_gpio()) {
-        return (uint8_t)hal.rcout->read(real_pin);
-    }
-    return 0;
-}
+const uint8_t Linux::GPIO_Sysfs::n_pins = _PILOTPI_GPIO_MAX;
 
-void GPIO_PilotPi::write(uint8_t pin, uint8_t value)
-{
-    static uint8_t real_pin;
+static_assert(ARRAY_SIZE(Linux::GPIO_Sysfs::pin_table) == _PILOTPI_GPIO_MAX,
+              "GPIO pin_table must have the same size of entries in enum gpio_pilotpi");
 
-    /* MainOut (raspberry pi GPIOs)? */
-    if(mainOutPin(pin, &real_pin)) {
-        GPIO_RPI::write(real_pin, value);
-        return;
-    }
-    /* AUXOUT? (rcout) */
-    else if(auxOutPin(pin, &real_pin) && hal.rcout->supports_gpio()) {
-        hal.rcout->write_gpio(real_pin, value);
-    }
-}
-
-void GPIO_PilotPi::pinMode(uint8_t pin, uint8_t output)
-{
-    static uint8_t real_pin;
-
-    /* MainOut (raspberry pi GPIOs)? */
-    if(mainOutPin(pin, &real_pin)) {
-        GPIO_RPI::pinMode(real_pin, output);
-    }
-}
-
-void GPIO_PilotPi::pinMode(uint8_t pin, uint8_t output, uint8_t alt)
-{
-    static uint8_t real_pin;
-
-    /* MainOut (raspberry pi GPIOs)? */
-    if(mainOutPin(pin, &real_pin)) {
-        GPIO_RPI::pinMode(real_pin, output, alt);
-    }
-}
-
-/** convert ardupilot RELAYx_PIN to raspberry pi gpio pin */
-bool GPIO_PilotPi::mainOutPin(uint8_t ap_pin, uint8_t *pin) {
-    if(100 >= ap_pin || ap_pin >= 200) {
-        return false;
-    }    
-    /* GPIO available? */
-    if(ap_pin-101 >= (uint8_t) sizeof(PilotPiGPIOS)) {
-        return false;
-    }
-    
-    *pin = PilotPiGPIOS[ap_pin-101];
-    return true;
-}
-
-/* convert ardupilot RELAYx_PIN to RCOUT GPIO pin */
-bool GPIO_PilotPi::auxOutPin(uint8_t ap_pin, uint8_t *pin) {
-    if(50 > ap_pin || ap_pin > 100) {
-        return false;
-    }
-    *pin = ap_pin-50;
-    return true;
-}
-
-#endif  // HAL_LINUX_GPIO_PILOTPI_ENABLED
+#endif  // CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_PILOTPI

@@ -131,8 +131,6 @@ static Storage storageDriver;
 static GPIO_BBB gpioDriver;
 #elif HAL_LINUX_GPIO_NAVIGATOR_ENABLED
 static GPIO_Navigator gpioDriver;
-#elif HAL_LINUX_GPIO_PILOTPI_ENABLED
-static GPIO_PilotPi gpioDriver;
 #elif HAL_LINUX_GPIO_RPI_ENABLED
 static GPIO_RPI gpioDriver;
 #elif HAL_LINUX_GPIO_SYSFS_ENABLED

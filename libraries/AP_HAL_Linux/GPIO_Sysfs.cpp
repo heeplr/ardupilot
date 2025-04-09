@@ -4,6 +4,7 @@
 
 #include <fcntl.h>
 #include <stdio.h>
+#include <sys/inotify.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -190,6 +191,21 @@ void GPIO_Sysfs::toggle(uint8_t vpin)
 {
     write(vpin, !read(vpin));
 }
+
+/***
+ Interrupt interface:
+                               ret , pin    , state,timestamp
+ where:
+   ret indicates the functor must return void
+   pin is the pin which has triggered the interrupt
+   state is the new state of the pin
+   timestamp is the time in microseconds the interrupt occurred
+**/
+// bool GPIO_Sysfs::attach_interrupt(uint8_t pin, irq_handler_fn_t fn, GPIO::INTERRUPT_TRIGGER_TYPE mode)
+// {
+//     printf("GPIO_Sysfs: attach_interrupt\n");
+//     return false;
+// }
 
 AP_HAL::DigitalSource* GPIO_Sysfs::channel(uint16_t vpin)
 {

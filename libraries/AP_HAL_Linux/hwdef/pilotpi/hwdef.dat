@@ -47,7 +47,7 @@ define HAL_PARAM_DEFAULTS_PATH "/home/ardupilot/ardupilot.parm"
 
 
 # GPIO
-define HAL_LINUX_GPIO_RPI_ENABLED 1
+define HAL_LINUX_GPIO_SYSFS_ENABLED 1
 define HAL_LINUX_GPIO_PILOTPI_ENABLED 1
 
 # SPI devices

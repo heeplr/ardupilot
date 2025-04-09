@@ -43,6 +43,7 @@ public:
     uint8_t read(uint8_t vpin) override;
     void write(uint8_t vpin, uint8_t value) override;
     void toggle(uint8_t vpin) override;
+    //bool attach_interrupt(uint8_t pin, irq_handler_fn_t fn, GPIO::INTERRUPT_TRIGGER_TYPE mode) override;
 
     /*
      * Export pin, instantiate a new DigitalSource_Sysfs and return its
