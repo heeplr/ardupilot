@@ -167,7 +167,7 @@ void AP_WheelEncoder::init(void)
         switch ((WheelEncoder_Type)_type[i].get()) {
 
         case WheelEncoder_TYPE_QUADRATURE:
-#if CONFIG_HAL_BOARD == HAL_BOARD_CHIBIOS
+#if CONFIG_HAL_BOARD == HAL_BOARD_CHIBIOS || CONFIG_HAL_BOARD == HAL_BOARD_LINUX
             drivers[i] = NEW_NOTHROW AP_WheelEncoder_Quadrature(*this, i, state[i]);
 #endif
             break;
@@ -177,7 +177,7 @@ void AP_WheelEncoder::init(void)
             drivers[i] = NEW_NOTHROW AP_WheelEncoder_SITL_Quadrature(*this, i, state[i]);
 #endif
             break;
-            
+
         case WheelEncoder_TYPE_NONE:
             break;
         }
